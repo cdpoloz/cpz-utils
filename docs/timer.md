@@ -2,11 +2,10 @@
 
 ## Purpose
 
-`Timer` is a small stateful utility for time-based logic in Java applications.
-It has no Processing dependency and reads time through a `TimeSource`, which
-makes it usable with the system clock, tests, simulations, or custom time flows.
-Internally, `Timer` uses monotonic nanosecond time based on `System.nanoTime()`;
-its public API remains in milliseconds for simplicity.
+`Timer` is a small stateful utility for time-based logic. It reads time through
+a `TimeSource`, making it suitable for system time, tests, simulations, or externally
+controlled time flows. Internally, it uses monotonic nanosecond time based on
+`System.nanoTime()`, while its public API remains in milliseconds for simplicity.
 
 Typical uses include:
 
@@ -14,6 +13,15 @@ Typical uses include:
 - elapsed time checks
 - repeating on/off phases
 - duty-cycle phases
+
+For simple chronometer-style elapsed-time measurement with start, stop, reset,
+and resume semantics, use `Stopwatch` instead.
+
+For count-toward-zero behavior with remaining time and expiration semantics,
+use `Countdown` instead.
+
+For fixed-step simulation updates where elapsed time is accumulated and
+consumed as discrete steps, use `FixedStepTimer` instead.
 
 ## Time Source
 

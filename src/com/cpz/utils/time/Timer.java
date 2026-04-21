@@ -5,7 +5,7 @@ package com.cpz.utils.time;
  *
  * @author CPZ
  */
-public class Timer {
+public final class Timer {
 
     private static final long NANOS_PER_MILLI = 1_000_000L;
 
