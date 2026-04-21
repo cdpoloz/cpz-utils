@@ -3,7 +3,7 @@
 ## Purpose
 
 `Colors` is a small static utility for packed ARGB colors. It builds, adjusts,
-and reads color values represented as Java `int`s.
+interpolates, and reads color values represented as Java `int`s.
 
 The class is framework-agnostic. It does not depend on Processing, AWT, CSS
 parsing, color-space libraries, rendering APIs, or UI frameworks.
@@ -14,6 +14,7 @@ Typical uses include:
 - creating grayscale colors
 - creating colors from percentage channels
 - replacing the alpha channel of an existing color
+- interpolating between two packed ARGB colors
 - reading alpha, red, green, and blue channels from a packed color
 
 ## Color Representation
@@ -99,6 +100,31 @@ Available construction methods include:
 - `argbPct(int alphaPercent, int redPercent, int greenPercent, int bluePercent)`
 - `grayPct(int valuePercent)`
 - `agrayPct(int alphaPercent, int valuePercent)`
+
+## Interpolation
+
+`lerpColor(int c1, int c2, float t)` linearly interpolates between two packed
+ARGB colors. Alpha, red, green, and blue are read from each input color and
+interpolated separately.
+
+The `t` parameter is the mix factor:
+
+- `0.0f` returns the first color
+- `1.0f` returns the second color
+- values outside `0..1` are clamped before interpolation
+
+Each interpolated channel is rounded to the nearest byte value and packed back
+into a `0xAARRGGBB` color.
+
+```java
+int idle = Colors.rgb(40, 120, 220);
+int hover = Colors.rgb(80, 180, 120);
+
+int halfway = Colors.lerpColor(idle, hover, 0.5f);
+```
+
+This is useful for hover states, simple transitions, or gradual mixes between
+two existing packed colors.
 
 ## Reading Channels
 
@@ -196,6 +222,15 @@ if (Colors.alpha(faded) < 255) {
 }
 ```
 
+Interpolate between two colors:
+
+```java
+int start = Colors.argb(255, 255, 64, 64);
+int end = Colors.argb(255, 64, 128, 255);
+
+int midTransition = Colors.lerpColor(start, end, 0.5f);
+```
+
 ## Notes / Non-goals
 
 `Colors` does not provide:
@@ -209,4 +244,4 @@ if (Colors.alpha(faded) < 255) {
 
 Those features are outside the scope of this first color utility. The current
 class stays focused on packed ARGB construction, alpha adjustment, and component
-reading.
+reading, plus direct interpolation between two packed colors.
