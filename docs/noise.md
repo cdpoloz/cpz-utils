@@ -130,7 +130,7 @@ independent `NoiseValue` instances:
 
 Each component uses the same injected `NoiseSource`, but each axis owns its own
 `NoiseValue` state. Calling `update()` updates x, y, and z. Calling `get()`
-returns a new immutable `Float3` with the current component values.
+returns a new immutable `Vector3f` with the current component values.
 
 `NoiseVector3` does not use Processing, `PVector`, arrays, collections, or an
 external vector dependency. It is only a minimal composition wrapper around
