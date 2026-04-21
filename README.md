@@ -267,8 +267,8 @@ snapshots.
 
 ## Relationship With Other Projects
 
-`cpz-utils` is independent. It should remain usable without Processing or any
-specific application template.
+`cpz-utils` is the foundational layer for the CPZ ecosystem, providing shared logic
+across UI, simulation, and tooling projects.
 
 Other projects, such as `cpz-mvvm-processing-template`, integrate these utilities
 through adapters. Those adapters belong to the consuming project, not
