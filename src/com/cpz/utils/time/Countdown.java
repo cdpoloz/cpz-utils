@@ -138,7 +138,7 @@ public final class Countdown {
      * without mutating state.
      */
     public boolean isRunning() {
-        return running;
+        return running && getRemainingNanos() > 0L;
     }
 
     /**
