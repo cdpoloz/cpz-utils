@@ -7,6 +7,8 @@ package com.cpz.utils.noise;
  * The value stores a position on a one-dimensional axis and advances that
  * position by its current speed when {@link #update()} is called. Reading the
  * current noise value with {@link #get()} does not change the internal state.
+ * Values returned by the source are passed through without normalization or
+ * clamping.
  *
  * @author CPZ
  */
@@ -21,6 +23,7 @@ public final class NoiseValue {
      * Creates a noise value at position {@code 0.0f} with speed {@code 0.0f}.
      *
      * @param noiseSource source used for all noise reads
+     * @throws IllegalArgumentException if {@code noiseSource} is {@code null}
      */
     public NoiseValue(NoiseSource noiseSource) {
         this(noiseSource, 0.0f);
@@ -32,6 +35,7 @@ public final class NoiseValue {
      *
      * @param noiseSource     source used for all noise reads
      * @param initialPosition initial position on the one-dimensional noise axis
+     * @throws IllegalArgumentException if {@code noiseSource} is {@code null}
      */
     public NoiseValue(NoiseSource noiseSource, float initialPosition) {
         this(noiseSource, initialPosition, 0.0f);
@@ -43,6 +47,7 @@ public final class NoiseValue {
      * @param noiseSource     source used for all noise reads
      * @param initialPosition initial position on the one-dimensional noise axis
      * @param speed           amount added to the position on each update
+     * @throws IllegalArgumentException if {@code noiseSource} is {@code null}
      */
     public NoiseValue(NoiseSource noiseSource, float initialPosition, float speed) {
         if (noiseSource == null) throw new IllegalArgumentException("noiseSource must not be null");
@@ -59,7 +64,10 @@ public final class NoiseValue {
     }
 
     /**
-     * Returns the noise value at the current position without changing state.
+     * Returns the source value at the current position without changing state.
+     * The result is not normalized or clamped.
+     *
+     * @return value returned by the configured noise source
      */
     public float get() {
         return noiseSource.noise(position);
@@ -76,6 +84,8 @@ public final class NoiseValue {
 
     /**
      * Returns the current position on the one-dimensional noise axis.
+     *
+     * @return current position
      */
     public float getPosition() {
         return position;
@@ -83,6 +93,8 @@ public final class NoiseValue {
 
     /**
      * Returns the amount added to the position on each update.
+     *
+     * @return current speed
      */
     public float getSpeed() {
         return speed;

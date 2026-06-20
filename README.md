@@ -2,9 +2,10 @@
 
 `cpz-utils` is a small Java utility library for reusable application logic.
 
-It contains pure Java utilities for time, packed colors, and simple noise-value
-state. The project is intentionally framework-agnostic: it does not depend on
-Processing, rendering APIs, UI toolkits, or external libraries.
+It contains pure Java utilities for time, packed colors, and coherent noise
+generation and progression. The project is intentionally framework-agnostic:
+it does not depend on Processing, rendering APIs, UI toolkits, or external
+libraries.
 
 ---
 
@@ -25,11 +26,12 @@ framework, or a custom runtime can adapt these utilities from the outside.
 - `com.cpz.utils.time`: stateful time utilities backed by an injectable
   monotonic `TimeSource`.
 - `com.cpz.utils.color`: static helpers for packed ARGB `int` colors.
-- `com.cpz.utils.noise`: small stateful noise utilities backed by an injected one-dimensional `NoiseSource`.
+- `com.cpz.utils.noise`: seeded multidimensional noise generation and stateful
+  one-dimensional noise progression.
 
 The current codebase does not provide rendering, Processing adapters, color
-objects, noise algorithms, dependency injection frameworks, or application
-architecture components.
+objects, dependency injection frameworks, or application architecture
+components.
 
 ---
 
@@ -81,23 +83,25 @@ or rendering integration.
 
 ### noise
 
-The `noise` package provides minimal noise-state utilities. It does not
-implement a noise algorithm. Instead, consumers inject a `NoiseSource`:
-
-```java
-float noise(float x);
-```
+The `noise` package separates noise sampling, generation, and stateful
+progression. It provides seeded Improved Perlin Noise and normalized fractal
+Brownian motion (fBm), while remaining independent from Processing and external
+libraries.
 
 Current public types:
 
 - `NoiseSource`: functional interface for one-dimensional noise lookup.
+- `NoiseField`: interface for one-dimensional, two-dimensional, and
+  three-dimensional noise lookup.
+- `PerlinNoise`: deterministic Improved Perlin Noise normalized to `[0, 1]`.
+- `FractalNoise`: normalized fBm over another `NoiseField`.
 - `NoiseValue`: stateful holder for `noiseSource`, `position`, and `speed`.
 - `NoiseVector3`: composition of three independent `NoiseValue` instances.
 - `Vector3f`: immutable record for three float components.
 
 `NoiseValue` advances its position with `update()`, reads with `get()`, and can
-be repositioned with `reset(float)`. `NoiseVector3` applies the same idea to x,
-y, and z by composing three `NoiseValue` objects.
+be repositioned with `reset(float)`. `NoiseVector3` applies the same idea to
+three independent one-dimensional values; it is not spatial 3D noise.
 
 ---
 
@@ -121,9 +125,12 @@ cpz-utils/
                 ├── color/
                 │   └── Colors.java
                 ├── noise/
+                │   ├── FractalNoise.java
+                │   ├── NoiseField.java
                 │   ├── NoiseSource.java
                 │   ├── NoiseValue.java
                 │   ├── NoiseVector3.java
+                │   ├── PerlinNoise.java
                 │   └── Vector3f.java
                 └── time/
                     ├── Countdown.java
@@ -187,10 +194,10 @@ long elapsedMillis = stopwatch.getElapsedMillis();
 ### Noise
 
 ```java
-import com.cpz.utils.noise.NoiseSource;
+import com.cpz.utils.noise.PerlinNoise;
 import com.cpz.utils.noise.NoiseValue;
 
-NoiseSource source = x -> (float) Math.sin(x);
+PerlinNoise source = new PerlinNoise(1234L);
 
 NoiseValue value = new NoiseValue(source, 0.0f, 0.01f);
 value.update();
@@ -255,13 +262,19 @@ extract bytes from the packed integer.
 `NoiseSource` is the integration point for an actual noise function. It can be a
 lambda, test stub, deterministic function, or adapter to an external algorithm.
 
+`NoiseField` extends that contract to two-dimensional and three-dimensional
+sampling. `PerlinNoise` provides deterministic Improved Perlin Noise in
+`[0, 1]`, while `FractalNoise` combines octaves from any `NoiseField` as a
+normalized weighted sum.
+
 `NoiseValue` stores one position and one speed. Calling `update()` advances the
 position by the speed. Calling `get()` reads the noise value at the current
 position without mutating state.
 
 `NoiseVector3` is not a 3D noise algorithm. It is a small composition wrapper
 around three independent `NoiseValue` instances and returns immutable `Vector3f`
-snapshots.
+snapshots. See [Noise](docs/noise.md) for the complete range, dimensional, and
+validation contracts.
 
 ---
 
@@ -298,15 +311,15 @@ The current scope is intentionally small:
 
 - time utilities
 - packed ARGB color helpers
-- one-dimensional noise-state helpers and a minimal 3-component composition
+- seeded multidimensional noise fields, fractal noise, and one-dimensional
+  noise-state helpers
 
 Out of scope for the current project:
 
 - Processing dependencies or built-in Processing adapters
 - rendering utilities
 - UI components
-- noise algorithm implementations
-- multidimensional noise frameworks
+- additional noise algorithms beyond the current Perlin and fBm implementations
 - color-space conversion systems
 - build or publishing automation beyond the current plain Java layout
   

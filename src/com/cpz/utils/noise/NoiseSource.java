@@ -1,11 +1,17 @@
 package com.cpz.utils.noise;
 
 /**
- * Source of one-dimensional noise values used by {@link NoiseValue}.
+ * Functional source of one-dimensional noise values used by {@link NoiseValue}
+ * and {@link NoiseVector3}.
  * <p>
  * This interface abstracts the noise algorithm. Implementations may delegate to
- * any deterministic or external source, but this package does not provide or
- * require a specific noise implementation.
+ * a deterministic algorithm, a lambda, or an external adapter. The interface
+ * does not define an output range; each implementation documents its own range
+ * and sampling behavior.
+ * <p>
+ * {@link NoiseField} extends this interface with two-dimensional and
+ * three-dimensional sampling while remaining compatible with APIs that consume
+ * a one-dimensional source.
  *
  * @author CPZ
  */
