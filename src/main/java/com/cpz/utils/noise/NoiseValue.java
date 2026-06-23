@@ -1,4 +1,4 @@
-package com.cpz.utils.noise;
+package main.java.com.cpz.utils.noise;
 
 /**
  * Stateful one-dimensional noise value backed by an injectable

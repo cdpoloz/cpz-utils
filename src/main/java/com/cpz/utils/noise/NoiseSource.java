@@ -1,4 +1,4 @@
-package com.cpz.utils.noise;
+package main.java.com.cpz.utils.noise;
 
 /**
  * Functional source of one-dimensional noise values used by {@link NoiseValue}
