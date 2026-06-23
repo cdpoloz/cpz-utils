@@ -329,7 +329,7 @@ The API is stable for current modules, but the library is still evolving.
 
 ## License
 
-`cpz-utils` is released under the MIT License. See [LICENSE](LICENSE).
+`cpz-utils` is released under the Apache License, Version 2.0. See [LICENSE](LICENSE).
 
 ---
 
