@@ -1,6 +1,6 @@
-package main.java.com.cpz.utils.noise;
+package com.cpz.utils.noise;
 
-import main.java.com.cpz.utils.noise.NoiseSource;
+import com.cpz.utils.noise.NoiseSource;
 
 /**
  * Multidimensional noise field that can be sampled in one, two, or three

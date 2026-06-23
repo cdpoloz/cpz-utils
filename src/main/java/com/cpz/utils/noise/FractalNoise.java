@@ -1,4 +1,4 @@
-package main.java.com.cpz.utils.noise;
+package com.cpz.utils.noise;
 
 /**
  * Generates normalized fractal Brownian motion noise by combining multiple

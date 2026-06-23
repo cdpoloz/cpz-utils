@@ -1,4 +1,4 @@
-package main.java.com.cpz.utils.noise;
+package com.cpz.utils.noise;
 
 /**
  * Immutable record containing three {@code float} components.

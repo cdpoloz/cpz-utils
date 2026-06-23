@@ -1,4 +1,4 @@
-package main.java.com.cpz.utils.noise;
+package com.cpz.utils.noise;
 
 /**
  * Three-component noise vector composed of three independent {@link NoiseValue}
