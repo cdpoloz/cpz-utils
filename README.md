@@ -148,8 +148,8 @@ runtime API.
 
 ## Maven
 
-After release `0.2.3` is published, the artifact will be available from Maven
-Central with this dependency:
+`cpz-utils` `0.2.3` is publicly available from Maven Central. Add this
+dependency to your project:
 
 ```xml
 <dependency>
