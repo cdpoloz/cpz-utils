@@ -31,6 +31,8 @@ public final class Countdown {
      *
      * @param durationMillis countdown duration in milliseconds; must be greater
      *                       than zero
+     * @throws IllegalArgumentException if {@code durationMillis} is not greater
+     *                                  than zero
      */
     public Countdown(int durationMillis) {
         this(new SystemTimeSource(), durationMillis);
@@ -42,6 +44,9 @@ public final class Countdown {
      * @param timeSource source used for all time reads
      * @param durationMillis countdown duration in milliseconds; must be greater
      *                       than zero
+     * @throws IllegalArgumentException if {@code timeSource} is {@code null} or
+     *                                  {@code durationMillis} is not greater
+     *                                  than zero
      */
     public Countdown(TimeSource timeSource, int durationMillis) {
         if (timeSource == null) throw new IllegalArgumentException("timeSource must not be null");
@@ -116,6 +121,8 @@ public final class Countdown {
      * While running, the returned value is the preserved remaining time minus
      * the time since the current start. While stopped, the returned value is the
      * preserved remaining time. The returned value is never negative.
+     *
+     * @return remaining time in milliseconds
      */
     public long getRemainingMillis() {
         return getRemainingNanos() / NANOS_PER_MILLI;
@@ -126,6 +133,8 @@ public final class Countdown {
      * <p>
      * Expiration is derived from the current remaining time and does not mutate
      * this countdown's state.
+     *
+     * @return {@code true} if no time remains; {@code false} otherwise
      */
     public boolean isExpired() {
         return getRemainingNanos() == 0L;
@@ -136,6 +145,9 @@ public final class Countdown {
      * <p>
      * Once the remaining time reaches zero, this method returns {@code false}
      * without mutating state.
+     *
+     * @return {@code true} if the countdown is running and has remaining time;
+     *         {@code false} otherwise
      */
     public boolean isRunning() {
         return running && getRemainingNanos() > 0L;
@@ -147,6 +159,8 @@ public final class Countdown {
      *
      * @param durationMillis countdown duration in milliseconds; must be greater
      *                       than zero
+     * @throws IllegalArgumentException if {@code durationMillis} is not greater
+     *                                  than zero
      */
     public void setDurationMillis(int durationMillis) {
         this.durationNanos = toNanos(requirePositiveDuration(durationMillis));
@@ -155,6 +169,8 @@ public final class Countdown {
 
     /**
      * Returns the configured full duration in milliseconds.
+     *
+     * @return configured duration in milliseconds
      */
     public long getDurationMillis() {
         return durationNanos / NANOS_PER_MILLI;

@@ -4,12 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.cpz</groupId>
+  <groupId>io.github.cdpoloz</groupId>
   <artifactId>cpz-utils</artifactId>
-  <version>0.2.2</version>
+  <version>0.2.3</version>
   <packaging>jar</packaging>
 
   <name>cpz-utils</name>
+  <description>Pure Java utilities for time management, packed ARGB colors, deterministic noise generation, and stateful noise progression.</description>
+  <url>https://github.com/cdpoloz/cpz-utils</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,7 +26,33 @@
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <id>cdpoloz</id>
+      <name>Carlos Polo Z.</name>
+      <email>cdpoloz@gmail.com</email>
+      <url>https://github.com/cdpoloz</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/cdpoloz/cpz-utils.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/cdpoloz/cpz-utils.git</developerConnection>
+    <url>https://github.com/cdpoloz/cpz-utils</url>
+  </scm>
+
   <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE</include>
+          <include>NOTICE</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -32,6 +60,63 @@
         <version>3.13.0</version>
         <configuration>
           <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.12.0</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <gpgArguments>
+            <arg>--pinentry-mode</arg>
+            <arg>loopback</arg>
+          </gpgArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.11.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <autoPublish>false</autoPublish>
+          <waitUntil>published</waitUntil>
         </configuration>
       </plugin>
     </plugins>

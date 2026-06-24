@@ -36,6 +36,7 @@ public final class Stopwatch {
      * Creates a stopwatch backed by the provided time source.
      *
      * @param timeSource source used for all time reads
+     * @throws IllegalArgumentException if {@code timeSource} is {@code null}
      */
     public Stopwatch(TimeSource timeSource) {
         if (timeSource == null) throw new IllegalArgumentException("timeSource must not be null");
@@ -103,6 +104,8 @@ public final class Stopwatch {
      * While running, the returned value is the preserved elapsed time plus the
      * time since the current start. While stopped, the returned value is the
      * preserved elapsed time from the last stop or reset.
+     *
+     * @return elapsed time in milliseconds
      */
     public long getElapsedMillis() {
         if (!running) return elapsedNanos / NANOS_PER_MILLI;
@@ -113,6 +116,8 @@ public final class Stopwatch {
 
     /**
      * Returns whether this stopwatch is currently measuring time.
+     *
+     * @return {@code true} if the stopwatch is running; {@code false} otherwise
      */
     public boolean isRunning() {
         return running;

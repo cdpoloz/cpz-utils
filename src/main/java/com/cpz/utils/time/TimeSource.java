@@ -11,6 +11,8 @@ public interface TimeSource {
 
     /**
      * Returns the current time in nanoseconds.
+     *
+     * @return current monotonic time in nanoseconds
      */
     long nowNanos();
 }

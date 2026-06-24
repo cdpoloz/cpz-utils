@@ -33,6 +33,8 @@ public final class FixedStepTimer {
      *
      * @param stepMillis fixed step duration in milliseconds; must be greater
      *                   than zero
+     * @throws IllegalArgumentException if {@code stepMillis} is not greater
+     *                                  than zero
      */
     public FixedStepTimer(int stepMillis) {
         this(new SystemTimeSource(), stepMillis);
@@ -44,6 +46,9 @@ public final class FixedStepTimer {
      * @param timeSource source used for all time reads
      * @param stepMillis fixed step duration in milliseconds; must be greater
      *                   than zero
+     * @throws IllegalArgumentException if {@code timeSource} is {@code null} or
+     *                                  {@code stepMillis} is not greater than
+     *                                  zero
      */
     public FixedStepTimer(TimeSource timeSource, int stepMillis) {
         if (timeSource == null) throw new IllegalArgumentException("timeSource must not be null");
@@ -120,6 +125,9 @@ public final class FixedStepTimer {
     /**
      * Returns whether at least one complete fixed step is available without
      * consuming it.
+     *
+     * @return {@code true} if a complete step is available; {@code false}
+     *         otherwise
      */
     public boolean hasStep() {
         return getCurrentAccumulatedNanos() >= stepNanos;
@@ -132,6 +140,8 @@ public final class FixedStepTimer {
      * While running, this method reads the current time to include elapsed time
      * since the last update. While stopped, it uses only preserved accumulated
      * time and does not read the time source.
+     *
+     * @return number of complete available steps
      */
     public long getAvailableSteps() {
         return getCurrentAccumulatedNanos() / stepNanos;
@@ -143,6 +153,8 @@ public final class FixedStepTimer {
      * This method mutates the timer by first accumulating elapsed time while
      * running, then subtracting all complete steps from the accumulated time.
      * The sub-step remainder is preserved.
+     *
+     * @return number of complete steps consumed
      */
     public long consumeAvailableSteps() {
         if (running) updateAccumulatedNanos();
@@ -153,6 +165,8 @@ public final class FixedStepTimer {
 
     /**
      * Returns whether this timer is currently accumulating elapsed time.
+     *
+     * @return {@code true} if the timer is running; {@code false} otherwise
      */
     public boolean isRunning() {
         return running;
@@ -164,6 +178,8 @@ public final class FixedStepTimer {
      *
      * @param stepMillis fixed step duration in milliseconds; must be greater
      *                   than zero
+     * @throws IllegalArgumentException if {@code stepMillis} is not greater
+     *                                  than zero
      */
     public void setStepMillis(int stepMillis) {
         this.stepNanos = toNanos(requirePositiveStep(stepMillis));
@@ -172,6 +188,8 @@ public final class FixedStepTimer {
 
     /**
      * Returns the configured fixed step duration in milliseconds.
+     *
+     * @return configured step duration in milliseconds
      */
     public long getStepMillis() {
         return stepNanos / NANOS_PER_MILLI;

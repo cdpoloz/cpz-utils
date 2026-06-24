@@ -7,6 +7,12 @@ package com.cpz.utils.time;
  */
 public final class SystemTimeSource implements TimeSource {
 
+    /**
+     * Creates a system-backed time source.
+     */
+    public SystemTimeSource() {
+    }
+
     @Override
     public long nowNanos() {
         return System.nanoTime();

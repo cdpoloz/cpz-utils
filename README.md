@@ -146,21 +146,18 @@ runtime API.
 
 ---
 
-## Installation / Usage
+## Maven
 
-This project is currently distributed as source code and manual JAR builds.
-This repository does not currently define Maven or Gradle publishing metadata.
+After release `0.2.3` is published, the artifact will be available from Maven
+Central with this dependency:
 
-Use it as a plain Java library by compiling the sources or by adding the built
-JAR to a consuming project's classpath:
-
-```bash
-javac -d out/classes $(find src -name '*.java')
-jar --create --file out/cpz-utils.jar -C out/classes .
+```xml
+<dependency>
+    <groupId>io.github.cdpoloz</groupId>
+    <artifactId>cpz-utils</artifactId>
+    <version>0.2.3</version>
+</dependency>
 ```
-
-The repository also contains an IntelliJ IDEA module file and a generated JAR
-artifact under `out/artifacts/cpz_utils_jar/`.
 
 ---
 
@@ -321,8 +318,6 @@ Out of scope for the current project:
 - UI components
 - additional noise algorithms beyond the current Perlin and fBm implementations
 - color-space conversion systems
-- build or publishing automation beyond the current plain Java layout
-  
 The API is stable for current modules, but the library is still evolving.
 
 ---
